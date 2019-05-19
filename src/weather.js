@@ -1,4 +1,7 @@
 // čtení dat z API a jejich zobrazování na stránce
+
+import getWeatherIcon from './weather-icons';
+
 export default class Weather {
 
     constructor() { }
@@ -13,24 +16,34 @@ export default class Weather {
     }
 
     displayWeather(data) {
-        // alert("ahoj");
-        const cityEl = document.getElementById("mesto");
-        const descEl = document.getElementById("popis");
-        const tempEl = document.getElementById("teplota");
-        const iconEl = document.getElementById("ikona");
-        const windEl = document.getElementById("vitr");
-        const humidEl = document.getElementById("vlhkost");
-        const sunriseEl = document.getElementById("vychod");
-        const sunsetEl = document.getElementById("zapad");
+
+        let newIcon = getWeatherIcon(data.weather[0].id, data.weather[0].icon);
+
+        let sunriseDate = new Date(data.sys.sunrise * 1000);
+        let sunriseHours = sunriseDate.getHours();
+        let sunriseMinutes = sunriseDate.getMinutes();
+        let sunsetDate = new Date(data.sys.sunset * 1000);
+        let sunsetHours = sunsetDate.getHours();
+        let sunsetMinutes = sunsetDate.getMinutes();
+
+        let cityEl = document.getElementById("mesto");
+        let descEl = document.getElementById("popis");
+        let tempEl = document.getElementById("teplota");
+        let iconEl = document.getElementById("ikona");
+        let windEl = document.getElementById("vitr");
+        let humidEl = document.getElementById("vlhkost");
+        let sunriseEl = document.getElementById("vychod");
+        let sunsetEl = document.getElementById("zapad");
 
         cityEl.textContent = data.name;
-        tempEl.textContent = data.main.temp;
-        descEl.textContent = data.weather["0"].description;
-        iconEl.src = `https://openweathermap.org/img/w/${data.weather["0"].icon}.png`;
+        tempEl.textContent = Math.round(data.main.temp);
+        descEl.textContent = data.weather[0].description;
+        iconEl = newIcon.innerHTML;
+        windEl.textContent = Number.parseFloat(data.wind.speed).toFixed(1);
         windEl.textContent = data.wind.speed;
         humidEl.textContent = data.main.humidity;
-        sunriseEl.textContent = data.sys.sunrise;
-        sunsetEl.textContent = data.sys.sunset;
+        sunriseEl.textContent = sunriseHours + ":" + sunriseMinutes;
+        sunsetEl.textContent = sunsetHours + ":" + sunsetMinutes;
 
         console.log(data);
 
