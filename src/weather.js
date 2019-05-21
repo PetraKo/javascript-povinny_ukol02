@@ -22,6 +22,7 @@ export default class Weather {
         let sunriseDate = new Date(data.sys.sunrise * 1000);
         let sunriseHours = sunriseDate.getHours();
         let sunriseMinutes = sunriseDate.getMinutes();
+        
         let sunsetDate = new Date(data.sys.sunset * 1000);
         let sunsetHours = sunsetDate.getHours();
         let sunsetMinutes = sunsetDate.getMinutes();
@@ -38,14 +39,12 @@ export default class Weather {
         cityEl.textContent = data.name;
         tempEl.textContent = Math.round(data.main.temp);
         descEl.textContent = data.weather[0].description;
-        iconEl = newIcon.innerHTML;
+        iconEl.innerHTML = newIcon;
         windEl.textContent = Number.parseFloat(data.wind.speed).toFixed(1);
         windEl.textContent = data.wind.speed;
         humidEl.textContent = data.main.humidity;
         sunriseEl.textContent = sunriseHours + ":" + sunriseMinutes;
         sunsetEl.textContent = sunsetHours + ":" + sunsetMinutes;
-
-        console.log(data);
 
     }
 
